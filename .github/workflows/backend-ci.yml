@@ -43,6 +43,7 @@ jobs:
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       POSTGRES_HOST: db
       POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+      PYTHONUNBUFFERED: 1
       DJANGO_SETTINGS_MODULE: fleet.settings
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
