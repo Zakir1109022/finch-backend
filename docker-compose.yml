@@ -21,8 +21,11 @@ services:
       retries: 5
     
   web:
-    image: zakir22/finch-backend
+    image: finch-backend
     container_name: finch-backend-container
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
