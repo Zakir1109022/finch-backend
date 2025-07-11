@@ -21,8 +21,8 @@ services:
       retries: 5
     
   web:
-    image: 3-tire-back
-    container_name: 3-tire-back
+    image: finch-backend
+    container_name: finch-backend-container
     build:
       context: .
       dockerfile: Dockerfile
