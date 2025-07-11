@@ -50,27 +50,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
           
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Wait for DB to be ready
-        run: |
-          for i in {1..10}; do
-            pg_isready -h db -p 5432 -U $POSTGRES_USER && echo "Postgres is ready" && exit 0
-            echo "Waiting for Postgres..." && sleep 2
-          done
-          echo "Postgres did not become ready in time." && exit 1
           
       - name: Run migrations
-        run: python manage.py migrate
+        run: |
+         python -m venv venv1
+         source venv1/bin/activate
+         python manage.py migrate
 
       - name: Run unit tests
         run: python manage.py test
