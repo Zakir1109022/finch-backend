@@ -9,6 +9,14 @@ on:
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+  STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
+  STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+  SITE_URL: ${{ secrets.SITE_URL }}
+  FORNTEND_SITE_URL: ${{ secrets.FORNTEND_SITE_URL }}
+  DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPERUSER_USERNAME }}
+  DJANGO_SUPERUSER_EMAIL: ${{ secrets.DJANGO_SUPERUSER_EMAIL }}
+  DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
 
 jobs:
   unit_test_lint:
@@ -18,9 +26,13 @@ jobs:
       db:
         image: postgres:15
         env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          ENGINE: django.db.backends.postgresql
+          NAME: ${{ secrets.POSTGRES_DB }}
+          USER: ${{ secrets.POSTGRES_USER }}
+          PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          HOST: db
+          PORT: 5432
+          SECRET_KEY : ${{ secrets.SECRET_KEY }}
         ports:
           - 5432:5432
         options: >-
@@ -28,20 +40,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
- 
-    env:
-      STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-      STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
-      STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
-      SITE_URL: ${{ secrets.SITE_URL }}
-      FORNTEND_SITE_URL: ${{ secrets.FORNTEND_SITE_URL }}
-      DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPERUSER_USERNAME }}
-      DJANGO_SUPERUSER_EMAIL: ${{ secrets.DJANGO_SUPERUSER_EMAIL }}
-      DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
-      POSTGRES_HOST: db
-      DATABASE_URL: postgres://postgres:postgres@db:5432/${{ secrets.POSTGRES_DB }}
-      DJANGO_SETTINGS_MODULE: fleet.settings
-      SECRET_KEY : ${{ secrets.SECRET_KEY }}
      
     steps:
       - name: Checkout code
