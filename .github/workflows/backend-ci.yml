@@ -55,6 +55,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Wait for DB to be ready
+        run: |
+          for i in {1..10}; do
+            pg_isready -h db -p 5432 -U $POSTGRES_USER && echo "Postgres is ready" && exit 0
+            echo "Waiting for Postgres..." && sleep 2
+          done
+          echo "Postgres did not become ready in time." && exit 1
+          
       - name: Run migrations
         run: python manage.py migrate
 
