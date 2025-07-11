@@ -26,21 +26,26 @@ jobs:
       db:
         image: postgres:15
         env:
-          ENGINE: django.db.backends.postgresql
-          NAME: ${{ secrets.POSTGRES_DB }}
-          USER: ${{ secrets.POSTGRES_USER }}
-          PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          HOST: db
-          PORT: 5432
-          SECRET_KEY : ${{ secrets.SECRET_KEY }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U roy77"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-     
+          --health-cmd="pg_isready -U ${{ secrets.POSTGRES_USER }}"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      DJANGO_SETTINGS_MODULE: fleet.settings
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -51,16 +56,15 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run migrations
-        run: |
-          python manage.py migrate
+        run: python manage.py migrate
 
       - name: Run unit tests
-        run: |
-          python manage.py test
+        run: python manage.py test
 
   deploy:
     needs: unit_test_lint
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
