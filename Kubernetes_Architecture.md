@@ -120,16 +120,18 @@ The Django service exposes the app on port 8000 internally.
 
 ---
 
-## Resource Allocation
+##  **Resource Allocation**
 
-Currently, no explicit `resources.requests` or `resources.limits` are defined. It’s recommended to add CPU/memory requests and limits for better scheduling and stability:
+### Deployment Resources
+The Vue application deployment defines specific **CPU and memory resources** for efficient usage and to avoid overcommitment of cluster resources.
 
-```yaml
-resources:
-  requests:
-    memory: "512Mi"
-    cpu: "500m"
-  limits:
-    memory: "1Gi"
-    cpu: "1"
+- **Requests**:
+  - CPU: `500m` (0.5 vCPU)
+  - Memory: `512Mi`
+  - These values define the minimum resources guaranteed to the container.
+  
+- **Limits**:
+  - CPU: `1` (1 vCPU)
+  - Memory: `1Gi`
+  - These are the maximum resources the container can consume.
 ```
