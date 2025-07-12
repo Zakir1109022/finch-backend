@@ -122,8 +122,8 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB', 'fleetdb'),
         'USER': os.getenv('POSTGRES_USER', 'roy77'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'asdf1234@77'),
-        'HOST': os.getenv('POSTGRES_HOST', 'db'),
-        'PORT': os.getenv('POSTGRES_PORT', 5432),
+        'HOST': os.getenv('POSTGRES_HOST),
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
     }
 }
 
