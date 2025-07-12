@@ -48,7 +48,7 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         ports:
-          - 5432:5432
+          - "5432:5432"
         options: >-
           --health-cmd="pg_isready -U roy77"
           --health-interval=10s
