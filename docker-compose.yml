@@ -9,6 +9,8 @@ services:
       POSTGRES_DB: fleetdb
       POSTGRES_USER: roy77
       POSTGRES_PASSWORD: asdf1234@77
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -21,11 +23,11 @@ services:
       retries: 5
     
   web:
-    image: finch-backend
+    image: zakir22/finch-backend
     container_name: finch-backend-container
-    build:
-      context: .
-      dockerfile: Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
