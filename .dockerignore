@@ -34,3 +34,7 @@ Thumbs.db
 Dockerfile
 docker-compose.yml
 docker-compose.override.yml
+
+.git/
+node_modules/
+k8s/
