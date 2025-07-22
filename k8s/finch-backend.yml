@@ -86,7 +86,7 @@ spec:
               mountPath: /var/lib/postgresql/data
           readinessProbe:
             exec:
-              command: ["pg_isready", "-U", "roy77"]
+              command: ["pg_isready", "-U", "roy77","-d","fleetdb"]
             initialDelaySeconds: 10
             periodSeconds: 10
       volumes:
